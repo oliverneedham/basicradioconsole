@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- 
+	The Basic Radio Console - v1.0.2
+	http://oliverneedham.co.uk/basicradioconsole/
+	Copyright (c) 2013 Oliver Needham;
+-->
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>The Basic Radio Console - Listen Live</title>	
+    
+    <link rel="shortcut icon" href="img/btnPlay.png" />	
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Elusive icons font -->
+	<link rel="stylesheet" href="fonts/elusive-iconfont-master/css/elusive-webfont.css">
+	<!--[if lte IE 7]><script src="fonts/elusive-iconfont-master/lte-ie7.js"></script><![endif]-->
+	
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>	
+	<script src="build/mediaelement-and-player.min.js"></script>
+	<link rel="stylesheet" href="build/mediaelementplayer.min.css" />
+    
+    <link rel="stylesheet" href="mainstyling.css" />
+    <link rel="stylesheet" href="custom.css" />
+</head>
+<body>
+
+<div id="container">
+
+	<img src="img/console_logo.png" alt="Your Station" class="header_logo" />
+
+	<audio id="player" src="stream_example.mp3" type="audio/mp3" controls="controls" autoplay="true" preload="none"></audio>
+
+	<div id="content_container">
+		<div id="onair">Loading...</div>
+        <div id="social">
+        	<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Foliverneedham.co.uk%2Fbasicradioconsole%2F&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=325863067435562" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe>
+        	<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+        	<div class="g-plusone" data-size="medium"></div>
+        </div>
+        <div id="promos" class="cycle-slideshow" data-cycle-fx="scrollHorz" data-cycle-pause-on-hover="true" data-cycle-speed="200">
+            <img src="slides/slide01.png" class="first" />
+            <img src="slides/slide02.png" />
+            <img src="slides/slide03.png" />
+        </div>
+        <div id="footer">
+        	<p>Built from <a href="http://oliverneedham.co.uk/basicradioconsole/" target="_blank">The Basic Radio Console</a></p>
+        	<p>&copy; 2013 <a href="http://oliverneedham.co.uk" target="_blank">Oliver Needham</a></p>
+        </div>
+	</div><!-- /#content_container -->
+    
+</div><!-- /#container -->
+
+<!-- Script for MediaElement.js -->
+<script src="mediaelement-config.js"></script>
+
+<!-- On Air Script -->
+<SCRIPT TYPE="text/javascript" LANGUAGE="JavaScript">
+function GetOnAir(){
+	//Try to create the AJAX Object
+	//*******************************
+	function GetXmlHttpObject() {
+		var xmlHttp=null;
+		try {
+  			// Firefox, Opera 8.0+, Safari
+  			xmlHttp=new XMLHttpRequest();
+  		} catch (e) {
+  			// Internet Explorer
+  			try {
+    				xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+    			} catch (e) {
+    				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+    			 }
+  		 }
+	return xmlHttp;
+	}
+        //Test to see if the browser created the object
+	//**********************************************
+	xmlHttp=GetXmlHttpObject()
+	if (xmlHttp==null) {
+  		alert ("Your browser does not support AJAX!");
+  		return;
+  	}
+	
+	//Browser was able to create AJAX Object
+	//**************************************
+	var url="nowplaying.html";//added date to end of URL  as a hack for IE or it caches the results and doesnt refresh :(
+	var id="onair";
+	xmlHttp.onreadystatechange=function(){
+        	//0=uninitialized, 1=loading,2=loaded,3=interactive,4=complete
+        	if (xmlHttp.readyState==4) {
+                	if (xmlHttp.status == 200) { //ok from server
+                        	document.getElementById(id).innerHTML=" " + xmlHttp.responseText;
+                	}
+                	else {
+                        	document.getElementById(id).innerHTML=" ";
+        		}
+		}
+		/* else if (xmlHttp.readyState==1) {
+                	document.getElementById(id).innerHTML=" ";
+        	}
+        	else if (xmlHttp.readyState==2){
+                	document.getElementById(id).innerHTML=" ";
+        	}*/
+	};
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
+	//Repeat every 1000 miliseconds (1 Second)
+	//*******************************
+	setTimeout("GetOnAir()", 60000);
+}
+ 
+window.onload=function(){GetOnAir();}//call when everything has loaded
+</script>
+
+<!-- jQuery Cycle Plugin -->
+<script src="http://malsup.github.com/jquery.cycle2.js"></script>
+
+<!-- Twitter Widget Code -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<!-- Google+ Code -->
+<script type="text/javascript">
+  window.___gcfg = {lang: 'en-GB'};
+
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5434885-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</body>
+</html>
+
